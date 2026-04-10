@@ -9,7 +9,6 @@ A Payload CMS plugin that adds per-tenant [Umami Analytics](https://umami.is/) s
 - Adds `analytics.umamiWebsiteId` and `analytics.umamiShareToken` fields to the Tenants collection (super-admin only)
 - Registers a custom admin view at `/admin/analytics` showing the Umami dashboard in an iframe
 - Exports `<UmamiScript>` for tracking script injection in your app layout
-- Exports `isAnalyticsEnabledForTenant()` utility for conditional nav link display
 
 ## Installation
 
@@ -52,19 +51,22 @@ const tenant = await getTenant()
 />
 ```
 
-### 3. Add analytics nav link (BeforeNavLinksGroup)
+### 3. Add analytics nav link
+
+Create a project-level utility (cannot live in the plugin because it requires `@payload-config`,
+a virtual module alias that only exists in the consuming project):
 
 ```typescript
 // src/lib/analytics/utilities.ts
+import type { Tenant } from '@/payload-types'
 import configPromise from '@/payload.config'
 import { getPayload } from 'payload'
 
 export async function isAnalyticsEnabledForTenant(tenantId: number | null): Promise<boolean> {
   if (!tenantId || !process.env.UMAMI_URL) return false
   const payload = await getPayload({ config: configPromise })
-  const tenant = await payload.findByID({ collection: 'tenants', id: tenantId })
-  const analytics = (tenant as Record<string, Record<string, unknown>>)?.analytics
-  return !!analytics?.umamiShareToken
+  const tenant = (await payload.findByID({ collection: 'tenants', id: tenantId })) as Tenant
+  return !!tenant?.analytics?.umamiShareToken
 }
 ```
 
