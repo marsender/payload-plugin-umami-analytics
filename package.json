@@ -1,6 +1,6 @@
 {
   "name": "@marsender/payload-plugin-umami-analytics",
-  "version": "3.82.1",
+  "version": "3.82.2",
   "description": "Umami Analytics plugin for Payload CMS with multi-tenant support",
   "keywords": [
     "payload",
