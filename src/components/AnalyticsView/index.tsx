@@ -18,6 +18,7 @@ export default async function AnalyticsView({
   const resolvedParams = await Promise.resolve(params)
   const resolvedSearchParams = await Promise.resolve(searchParams)
   const payload = initPageResult.req.payload
+  const t = initPageResult.req.i18n.t as (key: string) => string
 
   // Umami URL stored by the plugin factory in config.custom
   const umamiUrl = (payload.config.custom?.umamiUrl as string | undefined) ?? ''
@@ -63,21 +64,25 @@ export default async function AnalyticsView({
       user={initPageResult.req.user ?? undefined}
       visibleEntities={initPageResult.visibleEntities ?? { collections: [], globals: [] }}
     >
-      <div className="gutter gutter--left gutter--right">
-        <RenderTitle className="mb-8" title="Analytics" />
-        {iframeUrl ? (
+      {iframeUrl ? (
+        <>
+          <div className="gutter gutter--left gutter--right">
+            <RenderTitle className="mb-8" title={t('pluginUmami:analyticsTitle')} />
+          </div>
           <iframe
             src={iframeUrl}
-            title="Umami Analytics"
-            style={{ width: '100%', height: '80vh', border: 'none', borderRadius: '8px' }}
+            title={t('pluginUmami:analyticsTitle')}
+            style={{ width: '100%', height: 'calc(100vh - 120px)', border: 'none', display: 'block' }}
           />
-        ) : (
+        </>
+      ) : (
+        <div className="gutter gutter--left gutter--right">
+          <RenderTitle className="mb-8" title={t('pluginUmami:analyticsTitle')} />
           <p style={{ color: 'var(--theme-elevation-500)', marginTop: '1rem' }}>
-            Analytics not configured. Ask your super-admin to set the Umami Share Token in the
-            Tenants collection (Analytics section).
+            {t('pluginUmami:analyticsNotConfigured')}
           </p>
-        )}
-      </div>
+        </div>
+      )}
     </DefaultTemplate>
   )
 }

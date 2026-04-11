@@ -81,7 +81,7 @@
                                         },
                                         admin: {
                                             description: {
-                                                en: "Share token for the public Umami dashboard (the part after /share/ in the share URL). Enable sharing in Umami website settings.",
+                                                en: 'Share token for the public Umami dashboard (the part after /share/ in the share URL). Enable sharing in Umami website settings.',
                                                 fr: "Token de partage du tableau de bord Umami public (la partie après /share/ dans l'URL de partage). Activez le partage dans les paramètres du site Umami."
                                             }
                                         }
@@ -93,6 +93,26 @@
                 ]
             };
         });
+        // Merge plugin translations into the i18n config
+        if (!config.i18n) config.i18n = {};
+        const existingTranslations = config.i18n.translations ?? {};
+        config.i18n.translations = {
+            ...existingTranslations,
+            en: {
+                ...existingTranslations.en ?? {},
+                pluginUmami: {
+                    analyticsTitle: 'Analytics',
+                    analyticsNotConfigured: 'Analytics not configured. Ask the administrator to set it up.'
+                }
+            },
+            fr: {
+                ...existingTranslations.fr ?? {},
+                pluginUmami: {
+                    analyticsTitle: 'Analytique',
+                    analyticsNotConfigured: "Analytique non configuré. Demandez à l'administrateur de le mettre en place."
+                }
+            }
+        };
         // Register the /admin/analytics custom view
         if (!config.admin) config.admin = {};
         if (!config.admin.components) config.admin.components = {};

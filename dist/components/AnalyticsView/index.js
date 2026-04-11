@@ -1,4 +1,4 @@
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
 import { DefaultTemplate } from '@payloadcms/next/templates';
 import { RenderTitle } from '@payloadcms/ui';
 /**
@@ -12,6 +12,7 @@ import { RenderTitle } from '@payloadcms/ui';
     const resolvedParams = await Promise.resolve(params);
     const resolvedSearchParams = await Promise.resolve(searchParams);
     const payload = initPageResult.req.payload;
+    const t = initPageResult.req.i18n.t;
     // Umami URL stored by the plugin factory in config.custom
     const umamiUrl = payload.config.custom?.umamiUrl ?? '';
     // Resolve tenant ID: prefer the active tenant from the `payload-tenant` cookie
@@ -46,28 +47,39 @@ import { RenderTitle } from '@payloadcms/ui';
             collections: [],
             globals: []
         },
-        children: /*#__PURE__*/ _jsxs("div", {
+        children: iframeUrl ? /*#__PURE__*/ _jsxs(_Fragment, {
+            children: [
+                /*#__PURE__*/ _jsx("div", {
+                    className: "gutter gutter--left gutter--right",
+                    children: /*#__PURE__*/ _jsx(RenderTitle, {
+                        className: "mb-8",
+                        title: t('pluginUmami:analyticsTitle')
+                    })
+                }),
+                /*#__PURE__*/ _jsx("iframe", {
+                    src: iframeUrl,
+                    title: t('pluginUmami:analyticsTitle'),
+                    style: {
+                        width: '100%',
+                        height: 'calc(100vh - 120px)',
+                        border: 'none',
+                        display: 'block'
+                    }
+                })
+            ]
+        }) : /*#__PURE__*/ _jsxs("div", {
             className: "gutter gutter--left gutter--right",
             children: [
                 /*#__PURE__*/ _jsx(RenderTitle, {
                     className: "mb-8",
-                    title: "Analytics"
+                    title: t('pluginUmami:analyticsTitle')
                 }),
-                iframeUrl ? /*#__PURE__*/ _jsx("iframe", {
-                    src: iframeUrl,
-                    title: "Umami Analytics",
-                    style: {
-                        width: '100%',
-                        height: '80vh',
-                        border: 'none',
-                        borderRadius: '8px'
-                    }
-                }) : /*#__PURE__*/ _jsx("p", {
+                /*#__PURE__*/ _jsx("p", {
                     style: {
                         color: 'var(--theme-elevation-500)',
                         marginTop: '1rem'
                     },
-                    children: "Analytics not configured. Ask your super-admin to set the Umami Share Token in the Tenants collection (Analytics section)."
+                    children: t('pluginUmami:analyticsNotConfigured')
                 })
             ]
         })
