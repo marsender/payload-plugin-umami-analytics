@@ -14,10 +14,21 @@ import { jsx as _jsx } from "react/jsx-runtime";
  * <UmamiScript
  *   umamiUrl={process.env.UMAMI_URL}
  *   websiteId={tenant?.analytics?.umamiWebsiteId}
+ *   proxyPath={process.env.UMAMI_URL ? '/metrics' : undefined}
  * />
  * ```
- */ export function UmamiScript({ umamiUrl, websiteId }) {
-    if (!umamiUrl || !websiteId) return null;
+ */ export function UmamiScript({ umamiUrl, websiteId, proxyPath }) {
+    if (!websiteId) return null;
+    if (proxyPath) {
+        return /*#__PURE__*/ _jsx("script", {
+            async: true,
+            defer: true,
+            src: `${proxyPath}/script.js`,
+            "data-website-id": websiteId,
+            "data-host-url": proxyPath
+        });
+    }
+    if (!umamiUrl) return null;
     return /*#__PURE__*/ _jsx("script", {
         async: true,
         defer: true,

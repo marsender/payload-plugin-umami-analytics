@@ -1,6 +1,13 @@
 type Props = {
   umamiUrl?: string | null
   websiteId?: string | null
+  /**
+   * Optional proxy path to bypass ad blockers.
+   * When set (e.g. "/metrics"), the script is loaded from `{proxyPath}/script.js`
+   * and tracking data is sent to `{proxyPath}/api/send` via Next.js rewrites.
+   * This avoids exposing the analytics domain in browser requests.
+   */
+  proxyPath?: string | null
 }
 
 /**
@@ -18,11 +25,24 @@ type Props = {
  * <UmamiScript
  *   umamiUrl={process.env.UMAMI_URL}
  *   websiteId={tenant?.analytics?.umamiWebsiteId}
+ *   proxyPath={process.env.UMAMI_URL ? '/metrics' : undefined}
  * />
  * ```
  */
-export function UmamiScript({ umamiUrl, websiteId }: Props) {
-  if (!umamiUrl || !websiteId) return null
+export function UmamiScript({ umamiUrl, websiteId, proxyPath }: Props) {
+  if (!websiteId) return null
+  if (proxyPath) {
+    return (
+      <script
+        async
+        defer
+        src={`${proxyPath}/script.js`}
+        data-website-id={websiteId}
+        data-host-url={proxyPath}
+      />
+    )
+  }
+  if (!umamiUrl) return null
   return (
     <script
       async
