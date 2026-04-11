@@ -1,4 +1,4 @@
-import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { DefaultTemplate } from '@payloadcms/next/templates';
 import { RenderTitle } from '@payloadcms/ui';
 /**
@@ -47,26 +47,15 @@ import { RenderTitle } from '@payloadcms/ui';
             collections: [],
             globals: []
         },
-        children: iframeUrl ? /*#__PURE__*/ _jsxs(_Fragment, {
-            children: [
-                /*#__PURE__*/ _jsx("div", {
-                    className: "gutter gutter--left gutter--right",
-                    children: /*#__PURE__*/ _jsx(RenderTitle, {
-                        className: "mb-8",
-                        title: t('pluginUmami:analyticsTitle')
-                    })
-                }),
-                /*#__PURE__*/ _jsx("iframe", {
-                    src: iframeUrl,
-                    title: t('pluginUmami:analyticsTitle'),
-                    style: {
-                        width: '100%',
-                        height: 'calc(100vh - 120px)',
-                        border: 'none',
-                        display: 'block'
-                    }
-                })
-            ]
+        children: iframeUrl ? /*#__PURE__*/ _jsx("iframe", {
+            src: iframeUrl,
+            title: t('pluginUmami:analyticsTitle'),
+            style: {
+                width: '100%',
+                height: '100vh',
+                border: 'none',
+                display: 'block'
+            }
         }) : /*#__PURE__*/ _jsxs("div", {
             className: "gutter gutter--left gutter--right",
             children: [

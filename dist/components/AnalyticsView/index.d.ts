@@ -7,5 +7,5 @@ import type { AdminViewServerProps } from 'payload';
  * - `config.custom.umamiUrl` — set by the plugin factory from UMAMI_URL env var
  * - `tenant.analytics.umamiShareToken` — set per-tenant by super-admin in Tenants collection
  */
-export default function AnalyticsView({ initPageResult, params, searchParams, }: AdminViewServerProps): Promise<import("react/jsx-runtime").JSX.Element>;
+export default function AnalyticsView({ initPageResult, params, searchParams }: AdminViewServerProps): Promise<import("react/jsx-runtime").JSX.Element>;
 //# sourceMappingURL=index.d.ts.map

@@ -4,6 +4,16 @@ All notable changes to `@marsender/payload-plugin-umami-analytics` are documente
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [3.82.4] - 2026-04-10
+
+### Changed
+- `AnalyticsView`: when the iframe is loaded, gutters are removed so the Umami scrollbar sits flush at the viewport edge; the iframe height is `calc(100vh - 120px)` to fill the view without wasted space
+- `AnalyticsView`: "not configured" state retains the gutter and title layout unchanged
+
+### Added
+- i18n support in `AnalyticsView`: title and "analytics not configured" message are now translated via `req.i18n.t()`
+- Plugin registers a `pluginUmami` translation namespace with `en` and `fr` strings; additional languages can be added by consumers via `config.i18n.translations`
+
 ## [3.82.1] - 2026-04-09
 
 ### Added

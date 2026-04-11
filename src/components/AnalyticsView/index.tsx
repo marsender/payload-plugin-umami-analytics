@@ -10,11 +10,7 @@ import type { AdminViewServerProps } from 'payload'
  * - `config.custom.umamiUrl` — set by the plugin factory from UMAMI_URL env var
  * - `tenant.analytics.umamiShareToken` — set per-tenant by super-admin in Tenants collection
  */
-export default async function AnalyticsView({
-  initPageResult,
-  params,
-  searchParams,
-}: AdminViewServerProps) {
+export default async function AnalyticsView({ initPageResult, params, searchParams }: AdminViewServerProps) {
   const resolvedParams = await Promise.resolve(params)
   const resolvedSearchParams = await Promise.resolve(searchParams)
   const payload = initPageResult.req.payload
@@ -41,48 +37,23 @@ export default async function AnalyticsView({
   }
 
   // Fetch tenant document to get analytics config (overrideAccess: true by default in local API)
-  const tenant = tenantId
-    ? await payload.findByID({ collection: 'tenants', id: tenantId })
-    : null
+  const tenant = tenantId ? await payload.findByID({ collection: 'tenants', id: tenantId }) : null
 
   type TenantAnalytics = { umamiShareToken?: string; umamiWebsiteId?: string }
-  const analytics = (tenant as Record<string, unknown> | null)?.analytics as
-    | TenantAnalytics
-    | undefined
+  const analytics = (tenant as Record<string, unknown> | null)?.analytics as TenantAnalytics | undefined
 
   const shareToken = analytics?.umamiShareToken
   const iframeUrl = umamiUrl && shareToken ? `${umamiUrl}/share/${shareToken}` : null
 
   return (
-    <DefaultTemplate
-      i18n={initPageResult.req.i18n}
-      locale={initPageResult.locale}
-      params={resolvedParams}
-      payload={payload}
-      permissions={initPageResult.permissions}
-      searchParams={resolvedSearchParams}
-      user={initPageResult.req.user ?? undefined}
-      visibleEntities={initPageResult.visibleEntities ?? { collections: [], globals: [] }}
-    >
-      {iframeUrl ? (
-        <>
-          <div className="gutter gutter--left gutter--right">
-            <RenderTitle className="mb-8" title={t('pluginUmami:analyticsTitle')} />
-          </div>
-          <iframe
-            src={iframeUrl}
-            title={t('pluginUmami:analyticsTitle')}
-            style={{ width: '100%', height: 'calc(100vh - 120px)', border: 'none', display: 'block' }}
-          />
-        </>
-      ) : (
-        <div className="gutter gutter--left gutter--right">
+    <DefaultTemplate i18n={initPageResult.req.i18n} locale={initPageResult.locale} params={resolvedParams} payload={payload} permissions={initPageResult.permissions} searchParams={resolvedSearchParams} user={initPageResult.req.user ?? undefined} visibleEntities={initPageResult.visibleEntities ?? { collections: [], globals: [] }}>
+      {iframeUrl ?
+        <iframe src={iframeUrl} title={t('pluginUmami:analyticsTitle')} style={{ width: '100%', height: '100vh', border: 'none', display: 'block' }} />
+      : <div className="gutter gutter--left gutter--right">
           <RenderTitle className="mb-8" title={t('pluginUmami:analyticsTitle')} />
-          <p style={{ color: 'var(--theme-elevation-500)', marginTop: '1rem' }}>
-            {t('pluginUmami:analyticsNotConfigured')}
-          </p>
+          <p style={{ color: 'var(--theme-elevation-500)', marginTop: '1rem' }}>{t('pluginUmami:analyticsNotConfigured')}</p>
         </div>
-      )}
+      }
     </DefaultTemplate>
   )
 }
