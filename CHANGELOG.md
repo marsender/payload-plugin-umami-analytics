@@ -4,6 +4,13 @@ All notable changes to `@marsender/payload-plugin-umami-analytics` are documente
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [3.82.6] - 2026-04-10
+
+### Added
+- `UmamiScript`: new `proxyPath` prop to route the tracking script and events through a custom path, bypassing ad blockers
+- `husky` pre-commit hook: lints staged TypeScript files, runs `tsc -b` type-check, and rebuilds `dist/`
+- `jiti` dev dependency required to load the TypeScript ESLint flat config
+
 ## [3.82.4] - 2026-04-10
 
 ### Changed
