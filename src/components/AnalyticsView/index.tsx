@@ -37,7 +37,9 @@ export default async function AnalyticsView({ initPageResult, params, searchPara
   }
 
   // Fetch tenant document to get analytics config (overrideAccess: true by default in local API)
-  const tenant = tenantId ? await payload.findByID({ collection: 'tenants', id: tenantId }) : null
+  const tenant = tenantId
+    ? await payload.findByID({ collection: 'tenants', id: tenantId, req: initPageResult.req })
+    : null
 
   type TenantAnalytics = { umamiShareToken?: string; umamiWebsiteId?: string }
   const analytics = (tenant as Record<string, unknown> | null)?.analytics as TenantAnalytics | undefined

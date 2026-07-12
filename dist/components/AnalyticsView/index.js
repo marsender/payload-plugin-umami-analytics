@@ -30,7 +30,8 @@ import { RenderTitle } from '@payloadcms/ui';
     // Fetch tenant document to get analytics config (overrideAccess: true by default in local API)
     const tenant = tenantId ? await payload.findByID({
         collection: 'tenants',
-        id: tenantId
+        id: tenantId,
+        req: initPageResult.req
     }) : null;
     const analytics = tenant?.analytics;
     const shareToken = analytics?.umamiShareToken;
