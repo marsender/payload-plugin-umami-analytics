@@ -1,6 +1,6 @@
 {
   "name": "@marsender/payload-plugin-umami-analytics",
-  "version": "3.86.5",
+  "version": "3.86.7",
   "description": "Umami Analytics plugin for Payload CMS with multi-tenant support",
   "keywords": [
     "payload",
@@ -46,7 +46,7 @@
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
     "type-check": "tsc --noEmit",
-    "prepare": "husky"
+    "hooks:install": "husky"
   },
   "peerDependencies": {
     "@payloadcms/next": "^3.0.0",
