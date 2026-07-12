@@ -46,6 +46,12 @@ export default [
       },
     },
   },
+  // Transaction safety: every Payload call must thread `req`.
+  {
+    rules: {
+      'no-restricted-syntax': ['error', ...missingReqSelectors],
+    },
+  },
   {
     rules: {
       '@typescript-eslint/ban-ts-comment': 'warn',
