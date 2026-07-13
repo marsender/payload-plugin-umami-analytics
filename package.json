@@ -43,10 +43,10 @@
     "build:swc": "swc ./src -d ./dist --config-file .swcrc --strip-leading-paths",
     "build:types": "tsc --emitDeclarationOnly --outDir dist",
     "clean": "rimraf -g {dist,*.tsbuildinfo}",
+    "hooks:install": "husky",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
-    "type-check": "tsc --noEmit",
-    "hooks:install": "husky"
+    "type-check": "tsc --noEmit"
   },
   "peerDependencies": {
     "@payloadcms/next": "^3.0.0",
