@@ -1,6 +1,6 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { DefaultTemplate } from '@payloadcms/next/templates';
-import { RenderTitle } from '@payloadcms/ui';
+import { RenderTitle, SetStepNav } from '@payloadcms/ui';
 /**
  * Admin view that embeds the Umami shared dashboard in an iframe.
  * Registered automatically at `/admin/analytics` by the plugin.
@@ -36,7 +36,7 @@ import { RenderTitle } from '@payloadcms/ui';
     const analytics = tenant?.analytics;
     const shareToken = analytics?.umamiShareToken;
     const iframeUrl = umamiUrl && shareToken ? `${umamiUrl}/share/${shareToken}` : null;
-    return /*#__PURE__*/ _jsx(DefaultTemplate, {
+    return /*#__PURE__*/ _jsxs(DefaultTemplate, {
         i18n: initPageResult.req.i18n,
         locale: initPageResult.locale,
         params: resolvedParams,
@@ -48,31 +48,40 @@ import { RenderTitle } from '@payloadcms/ui';
             collections: [],
             globals: []
         },
-        children: iframeUrl ? /*#__PURE__*/ _jsx("iframe", {
-            src: iframeUrl,
-            title: t('pluginUmami:analyticsTitle'),
-            style: {
-                width: '100%',
-                height: '100vh',
-                border: 'none',
-                display: 'block'
-            }
-        }) : /*#__PURE__*/ _jsxs("div", {
-            className: "gutter gutter--left gutter--right",
-            children: [
-                /*#__PURE__*/ _jsx(RenderTitle, {
-                    className: "mb-8",
-                    title: t('pluginUmami:analyticsTitle')
-                }),
-                /*#__PURE__*/ _jsx("p", {
-                    style: {
-                        color: 'var(--theme-elevation-500)',
-                        marginTop: '1rem'
-                    },
-                    children: t('pluginUmami:analyticsNotConfigured')
-                })
-            ]
-        })
+        children: [
+            /*#__PURE__*/ _jsx(SetStepNav, {
+                nav: [
+                    {
+                        label: t('pluginUmami:analyticsTitle')
+                    }
+                ]
+            }),
+            iframeUrl ? /*#__PURE__*/ _jsx("iframe", {
+                src: iframeUrl,
+                title: t('pluginUmami:analyticsTitle'),
+                style: {
+                    width: '100%',
+                    height: '100vh',
+                    border: 'none',
+                    display: 'block'
+                }
+            }) : /*#__PURE__*/ _jsxs("div", {
+                className: "gutter gutter--left gutter--right",
+                children: [
+                    /*#__PURE__*/ _jsx(RenderTitle, {
+                        className: "mb-8",
+                        title: t('pluginUmami:analyticsTitle')
+                    }),
+                    /*#__PURE__*/ _jsx("p", {
+                        style: {
+                            color: 'var(--theme-elevation-500)',
+                            marginTop: '1rem'
+                        },
+                        children: t('pluginUmami:analyticsNotConfigured')
+                    })
+                ]
+            })
+        ]
     });
 }
 

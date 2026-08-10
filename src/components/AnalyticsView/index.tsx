@@ -1,5 +1,5 @@
 import { DefaultTemplate } from '@payloadcms/next/templates'
-import { RenderTitle } from '@payloadcms/ui'
+import { RenderTitle, SetStepNav } from '@payloadcms/ui'
 import type { AdminViewServerProps } from 'payload'
 
 /**
@@ -49,6 +49,7 @@ export default async function AnalyticsView({ initPageResult, params, searchPara
 
   return (
     <DefaultTemplate i18n={initPageResult.req.i18n} locale={initPageResult.locale} params={resolvedParams} payload={payload} permissions={initPageResult.permissions} searchParams={resolvedSearchParams} user={initPageResult.req.user ?? undefined} visibleEntities={initPageResult.visibleEntities ?? { collections: [], globals: [] }}>
+      <SetStepNav nav={[{ label: t('pluginUmami:analyticsTitle') }]} />
       {iframeUrl ?
         <iframe src={iframeUrl} title={t('pluginUmami:analyticsTitle')} style={{ width: '100%', height: '100vh', border: 'none', display: 'block' }} />
       : <div className="gutter gutter--left gutter--right">
